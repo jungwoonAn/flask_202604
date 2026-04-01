@@ -17,7 +17,9 @@ def create_app():  # 애플리케이션 팩토리
     from . import models
 
     # 블루프린트 등록
-    from .views import main_views
+    from .views import main_views, question_views, answer_views
     app.register_blueprint(main_views.bp)
+    app.register_blueprint(question_views.bp)
+    app.register_blueprint(answer_views.bp)
 
     return app
