@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    {% include 'navbar.html' %}
     <!--기본 템플릿 안에 삽입될 내용 Start-->
     {% block content %}
 
