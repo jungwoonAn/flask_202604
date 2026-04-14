@@ -7,7 +7,8 @@ class Question(db.Model):
     create_date = db.Column(db.DateTime(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     user = db.relationship('User', backref=db.backref('question_set'))
-
+    modify_date = db.Column(db.DateTime(), nullable=True)
+    image_path = db.Column(db.Text(), nullable=True)
 
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -17,9 +18,14 @@ class Answer(db.Model):
     create_date = db.Column(db.DateTime(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     user = db.relationship('User', backref=db.backref('answer_set'))
+    modify_date = db.Column(db.DateTime(), nullable=True)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    # 주소 필드 추가
+    zip_code = db.Column(db.String(10), nullable=True)
+    address = db.Column(db.String(200), nullable=True)
+    detail_address = db.Column(db.String(200), nullable=True)

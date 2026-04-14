@@ -18,7 +18,50 @@
         {{ form.email.label }}
         {{ form.email(class="form-control mb-3") }}
 
+        <div class="form-group mb-3">
+        {{ form.zip_code.label }}
+            <div class="d-flex gap-2">
+                {{ form.zip_code(class="form-control", readonly=True) }}
+                <button type="button" class="btn btn-secondary text-nowrap" onclick="execDaumPostcode()">주소 찾기</button>
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            {{ form.address.label }}
+            {{ form.address(class="form-control", readonly=True) }}
+        </div>
+
+        <div class="form-group mb-4">
+            {{ form.detail_address.label }}
+            {{ form.detail_address(class="form-control") }}
+        </div>
+
         <button type="submit" class="btn btn-primary">저장하기</button>
     </form>
 </div>
+{% endblock %}
+
+{% block script %}
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 각 주소 노출 규칙에 따라 주소를 조합한다.
+                var addr = ''; // 주소 변수
+                if (data.userSelectedType === 'R') { // 도로명 주소 선택
+                    addr = data.roadAddress;
+                } else { // 지번 주소 선택
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("zip_code").value = data.zonecode;
+                document.getElementById("address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detail_address").focus();
+            }
+        }).open();
+    }
+</script>
 {% endblock %}

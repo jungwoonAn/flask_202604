@@ -17,7 +17,11 @@ def signup():
             user = User(
                 username=form.username.data,
                 password=generate_password_hash(form.password1.data),
-                email=form.email.data
+                email=form.email.data,
+                # 주소 정보 매핑
+                zip_code = form.zip_code.data,
+                address = form.address.data,
+                detail_address = form.detail_address.data
             )
             db.session.add(user)
             db.session.commit()
