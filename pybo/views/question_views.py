@@ -54,15 +54,16 @@ def create():
         upload_folder = os.path.join(current_app.root_path, 'static/photo', today)
         os.makedirs(upload_folder, exist_ok=True)
 
-        for image_file in image_files:
-            # 파일이 실제로 비어있지 않은지 확인
-            if image_file and image_file.filename != '':
-                filename = secure_filename(image_file.filename)
-                file_path = os.path.join(upload_folder, filename)
-                image_file.save(file_path)
+        if image_files:
+            for image_file in image_files:
+                # 파일이 실제로 비어있지 않은지 확인
+                if image_file and image_file.filename != '':
+                    filename = secure_filename(image_file.filename)
+                    file_path = os.path.join(upload_folder, filename)
+                    image_file.save(file_path)
 
-                # DB용 상대 경로 리스트에 추가
-                image_paths.append(f'photo/{today}/{filename}')
+                    # DB용 상대 경로 리스트에 추가
+                    image_paths.append(f'photo/{today}/{filename}')
         # 여러 경로를 하나의 문자열로 합침 (예: "path1,path2")
         # DB의 image_path 컬럼이 여러 경로를 담을 수 있을 만큼 길어야 합니다.
         joined_image_paths = ",".join(image_paths) if image_paths else None
